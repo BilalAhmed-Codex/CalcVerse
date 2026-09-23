@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalcVerse — Multi-Purpose Calculator</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Fonts: Tanker for English & Bevellier for Numbers from Fontshare CDN -->
+  <link href="https://api.fontshare.com/v2/css?f[]=tanker@400&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=bevellier@400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="graph.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar overlay for mobile drawer -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-wrapper">
+          <!-- CalcVerse Signature Multi-Attribute Emblem -->
+          <svg class="logo-icon" viewBox="0 0 36 36" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="32" height="32" rx="9" fill="#131926" stroke="#2563eb" stroke-width="1.6"/>
+            <line x1="18" y1="6" x2="18" y2="30" stroke="#28354d" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <line x1="6" y1="18" x2="30" y2="18" stroke="#28354d" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <path d="M6 21C10 21 12 12 18 12C24 12 26 24 30 24" stroke="#06b6d4" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M9 10h4M11 8v4" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+            <line x1="23" y1="10" x2="27" y2="10" stroke="#10b981" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="23" y1="13" x2="27" y2="13" stroke="#10b981" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="2.5" fill="#f43f5e" stroke="#131926" stroke-width="1"/>
+            <circle cx="11" cy="24" r="1.5" fill="#3b82f6"/>
+          </svg>
+          <span class="logo-text">CalcVerse</span>
+        </div>
+      </div>
+      
+      <!-- Search input -->
+      <div class="sidebar-search">
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+          </svg>
+          <input type="text" id="nav-search" placeholder="Search calculators..." autocomplete="off">
+        </div>
+      </div>
+      
+      <!-- Categorized Navigation with Colorful Icons -->
+      <nav class="sidebar-nav">
+        <!-- CALCULATORS -->
+        <div class="nav-group">
+          <span class="nav-category">Calculator</span>
+          <button class="nav-item active" data-calc="standard" data-calc-title="Standard">
+            <span class="nav-icon-badge badge-orange">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="16" y2="18"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Standard</span>
+              <span class="nav-item-sub">Basic Arithmetic</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="scientific" data-calc-title="Scientific">
+            <span class="nav-icon-badge badge-purple">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M7 12h10"/><path d="M12 7v10"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Scientific</span>
+              <span class="nav-item-sub">Trigonometry &amp; Powers</span>
+            </div>
+          </button>
+        </div>
+        
+        <!-- MATH -->
+        <div class="nav-group">
+          <span class="nav-category">Math</span>
+          <button class="nav-item" data-calc="percentage" data-calc-title="Percentage">
+            <span class="nav-icon-badge badge-emerald">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Percentage</span>
+              <span class="nav-item-sub">Ratios &amp; Change</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="equations" data-calc-title="Equations">
+            <span class="nav-icon-badge badge-blue">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h8"/><path d="M4 16h8"/><path d="M16 6l4 4-4 4"/><path d="M20 14l-4 4"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Equations</span>
+              <span class="nav-item-sub">Linear &amp; Quadratic</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="graph" data-calc-title="Graph">
+            <span class="nav-icon-badge badge-cyan">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="3" y2="3"/><line x1="3" y1="21" x2="21" y2="21"/><path d="M3 16c4-4 6 2 9-2s4-8 6-10"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Graph</span>
+              <span class="nav-item-sub">Desmos Plotter with Keypad</span>
+            </div>
+          </button>
+        </div>
+        
+        <!-- UNIT CONVERTERS -->
+        <div class="nav-group">
+          <div class="nav-group-header">
+            <span class="nav-category">Unit Converters</span>
+            <button class="grid-mode-btn" data-calc="unit-grid" title="Multi-converter grid view (up to 4 at once)">Grid View</button>
+          </div>
+          <button class="nav-item" data-calc="weight" data-calc-title="Weight">
+            <span class="nav-icon-badge badge-orange">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4c0 2 2 4 4 4s4-2 4-4a4 4 0 0 0-4-4z"/><path d="M6 21h12l-1.5-9h-9z"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Weight</span>
+              <span class="nav-item-sub">kg, lb, oz, ton</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="length" data-calc-title="Length">
+            <span class="nav-icon-badge badge-blue">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M6 8v8"/><path d="M18 8v8"/><path d="M10 10v4"/><path d="M14 10v4"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Length</span>
+              <span class="nav-item-sub">m, km, ft, in, mi</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="volume" data-calc-title="Volume">
+            <span class="nav-icon-badge badge-indigo">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14l-2 14H7z"/><path d="M5 5l2 2"/><path d="M19 5l-2 2"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Volume</span>
+              <span class="nav-item-sub">L, gal, cup, m&sup3;</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="temperature" data-calc-title="Temperature">
+            <span class="nav-icon-badge badge-red">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 0-2 2v10.5a4 4 0 1 0 4 0V4a2 2 0 0 0-2-2z"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Temperature</span>
+              <span class="nav-item-sub">&deg;C, &deg;F, Kelvin</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="speed" data-calc-title="Speed">
+            <span class="nav-icon-badge badge-lime">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Speed</span>
+              <span class="nav-item-sub">km/h, mph, m/s, kn</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="angle" data-calc-title="Angle">
+            <span class="nav-icon-badge badge-violet">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M4 20l8-16"/><path d="M8 12a8 8 0 0 1 4.5-1.5"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Angle</span>
+              <span class="nav-item-sub">deg, rad, grad</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="area" data-calc-title="Area">
+            <span class="nav-icon-badge badge-teal">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 3v18"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Area</span>
+              <span class="nav-item-sub">m&sup2;, ft&sup2;, acres</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="datastorage" data-calc-title="Data Storage">
+            <span class="nav-icon-badge badge-blue">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Data Storage</span>
+              <span class="nav-item-sub">MB, GB, TB, PB</span>
+            </div>
+          </button>
+        </div>
+        
+        <!-- FINANCE -->
+        <div class="nav-group">
+          <div class="nav-group-header">
+            <span class="nav-category">Finance</span>
+            <button class="grid-mode-btn" data-calc="finance-grid" title="Multi-tool finance grid view (up to 4 at once)">Grid View</button>
+          </div>
+          <button class="nav-item" data-calc="currency" data-calc-title="Currency">
+            <span class="nav-icon-badge badge-gold">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Currency</span>
+              <span class="nav-item-sub">USD, EUR, GBP, JPY</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="tip" data-calc-title="Tip &amp; Split">
+            <span class="nav-icon-badge badge-fuchsia">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Tip &amp; Split</span>
+              <span class="nav-item-sub">Bill &amp; Tip Calculator</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="unitprice" data-calc-title="Unit Price &amp; Discount">
+            <span class="nav-icon-badge badge-pink">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Unit Price</span>
+              <span class="nav-item-sub">Discounts &amp; Comparison</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- HEALTH -->
+        <div class="nav-group">
+          <span class="nav-category">Health</span>
+          <button class="nav-item" data-calc="bmi" data-calc-title="Body Mass Index">
+            <span class="nav-icon-badge badge-rose">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Body Mass Index</span>
+              <span class="nav-item-sub">BMI, Age &amp; Gender</span>
+            </div>
+          </button>
+        </div>
+        
+        <!-- DATE & TIME -->
+        <div class="nav-group">
+          <span class="nav-category">Date &amp; Time</span>
+          <button class="nav-item" data-calc="age" data-calc-title="Age">
+            <span class="nav-icon-badge badge-purple">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Age</span>
+              <span class="nav-item-sub">Exact Age &amp; Milestone</span>
+            </div>
+          </button>
+          <button class="nav-item" data-calc="time-interval" data-calc-title="Time Interval">
+            <span class="nav-icon-badge badge-cyan">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <div class="nav-item-content">
+              <span class="nav-item-title">Time Interval</span>
+              <span class="nav-item-sub">Duration Between Dates</span>
+            </div>
+          </button>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h1 id="calc-title">Standard</h1>
+        </div>
+        <div class="topbar-right">
+          <button id="history-toggle-btn" class="topbar-btn" title="Calculation History">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><polyline points="12 7 12 12 15 15"/>
+            </svg>
+            <span>History</span>
+          </button>
+        </div>
+      </header>
+      
+      <div class="calc-container">
+        <!-- ==================== 1. STANDARD CALCULATOR ==================== -->
+        <section id="view-standard" class="calc-view active">
+          <div class="calculator-shell standard-shell">
+            <div class="std-display-area">
+              <div id="std-expression" class="display-expression"></div>
+              <div id="std-display" class="display-value">0</div>
+            </div>
+            <div class="std-grid">
+              <button class="calc-btn btn-func" data-action="percent">%</button>
+              <button class="calc-btn btn-danger-soft" data-action="ce">CE</button>
+              <button class="calc-btn btn-danger" data-action="clear">C</button>
+              <button class="calc-btn btn-func" data-action="backspace" aria-label="Backspace">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+              </button>
+              <button class="calc-btn btn-func" data-action="reciprocal">1/x</button>
+              <button class="calc-btn btn-func" data-action="square">x&sup2;</button>
+              <button class="calc-btn btn-func" data-action="sqrt">&radic;x</button>
+              <button class="calc-btn btn-op" data-action="divide">&divide;</button>
+              <button class="calc-btn btn-num" data-val="7">7</button>
+              <button class="calc-btn btn-num" data-val="8">8</button>
+              <button class="calc-btn btn-num" data-val="9">9</button>
+              <button class="calc-btn btn-op" data-action="multiply">&times;</button>
+              <button class="calc-btn btn-num" data-val="4">4</button>
+              <button class="calc-btn btn-num" data-val="5">5</button>
+              <button class="calc-btn btn-num" data-val="6">6</button>
+              <button class="calc-btn btn-op" data-action="subtract">&minus;</button>
+              <button class="calc-btn btn-num" data-val="1">1</button>
+              <button class="calc-btn btn-num" data-val="2">2</button>
+              <button class="calc-btn btn-num" data-val="3">3</button>
+              <button class="calc-btn btn-op" data-action="add">+</button>
+              <button class="calc-btn btn-func" data-action="negate">&plusmn;</button>
+              <button class="calc-btn btn-num" data-val="0">0</button>
+              <button class="calc-btn btn-num" data-val=".">.</button>
+              <button class="calc-btn btn-equals" data-action="equals">=</button>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ==================== 2. SCIENTIFIC CALCULATOR (Compact Frame — No Scroll) ==================== -->
+        <section id="view-scientific" class="calc-view">
+          <div class="calculator-shell scientific-shell">
+            <div class="std-display-area sci-display-area">
+              <div class="display-top-meta">
+                <span id="sci-mode-indicator" class="mode-badge">DEG</span>
+                <span id="sci-mem-indicator" class="mem-badge" style="display:none;">M</span>
+              </div>
+              <div id="sci-expression" class="display-expression"></div>
+              <div id="sci-display" class="display-value">0</div>
+            </div>
+            
+            <!-- Scientific memory & mode bar -->
+            <div class="sci-aux-bar">
+              <button class="calc-btn aux-btn active-pill" id="sci-deg-btn" data-action="sci-deg">DEG</button>
+              <button class="calc-btn aux-btn" id="sci-rad-btn" data-action="sci-rad">RAD</button>
+              <button class="calc-btn aux-btn" data-action="sci-mc">MC</button>
+              <button class="calc-btn aux-btn" data-action="sci-mr">MR</button>
+              <button class="calc-btn aux-btn" data-action="sci-mplus">M+</button>
+              <button class="calc-btn aux-btn" data-action="sci-mminus">M&minus;</button>
+            </div>
+
+            <div class="sci-grid">
+              <button class="calc-btn btn-sci-spec" data-action="sci-2nd" id="sci-2nd-btn">2nd</button>
+              <button class="calc-btn btn-sci" data-action="sci-pi">&pi;</button>
+              <button class="calc-btn btn-sci" data-action="sci-e">e</button>
+              <button class="calc-btn btn-danger" data-action="sci-clear">C</button>
+              <button class="calc-btn btn-func" data-action="sci-backspace" aria-label="Backspace">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+              </button>
+              
+              <button class="calc-btn btn-sci" data-action="sci-square">x&sup2;</button>
+              <button class="calc-btn btn-sci" data-action="sci-cube">x&sup3;</button>
+              <button class="calc-btn btn-sci" data-action="sci-power">x<sup>y</sup></button>
+              <button class="calc-btn btn-sci" data-action="sci-10x">10<sup>x</sup></button>
+              <button class="calc-btn btn-sci" data-action="sci-log">log</button>
+              
+              <button class="calc-btn btn-sci" data-action="sci-sqrt">&radic;</button>
+              <button class="calc-btn btn-sci" data-action="sci-cbrt">&sup3;&radic;</button>
+              <button class="calc-btn btn-sci" data-action="sci-nroot"><sup>y</sup>&radic;x</button>
+              <button class="calc-btn btn-sci" data-action="sci-ex">e<sup>x</sup></button>
+              <button class="calc-btn btn-sci" data-action="sci-ln">ln</button>
+              
+              <button class="calc-btn btn-sci" data-action="sci-sin">sin</button>
+              <button class="calc-btn btn-sci" data-action="sci-cos">cos</button>
+              <button class="calc-btn btn-sci" data-action="sci-tan">tan</button>
+              <button class="calc-btn btn-sci" data-action="sci-factorial">n!</button>
+              <button class="calc-btn btn-sci" data-action="sci-abs">|x|</button>
+              
+              <button class="calc-btn btn-sci" data-action="sci-lparen">(</button>
+              <button class="calc-btn btn-sci" data-action="sci-rparen">)</button>
+              <button class="calc-btn btn-sci" data-action="sci-mod">mod</button>
+              <button class="calc-btn btn-op" data-action="sci-divide">&divide;</button>
+              <button class="calc-btn btn-func" data-action="sci-percent">%</button>
+              
+              <button class="calc-btn btn-num" data-val="7" data-target="sci">7</button>
+              <button class="calc-btn btn-num" data-val="8" data-target="sci">8</button>
+              <button class="calc-btn btn-num" data-val="9" data-target="sci">9</button>
+              <button class="calc-btn btn-op" data-action="sci-multiply">&times;</button>
+              <button class="calc-btn btn-danger-soft" data-action="sci-ce">CE</button>
+              
+              <button class="calc-btn btn-num" data-val="4" data-target="sci">4</button>
+              <button class="calc-btn btn-num" data-val="5" data-target="sci">5</button>
+              <button class="calc-btn btn-num" data-val="6" data-target="sci">6</button>
+              <button class="calc-btn btn-op" data-action="sci-subtract">&minus;</button>
+              <button class="calc-btn btn-func" data-action="sci-reciprocal">1/x</button>
+              
+              <button class="calc-btn btn-num" data-val="1" data-target="sci">1</button>
+              <button class="calc-btn btn-num" data-val="2" data-target="sci">2</button>
+              <button class="calc-btn btn-num" data-val="3" data-target="sci">3</button>
+              <button class="calc-btn btn-op" data-action="sci-add">+</button>
+              <button class="calc-btn btn-func" data-action="sci-negate">&plusmn;</button>
+              
+              <button class="calc-btn btn-num" data-val="0" data-target="sci">0</button>
+              <button class="calc-btn btn-num" data-val="." data-target="sci">.</button>
+              <button class="calc-btn btn-equals sci-eq" data-action="sci-equals" style="grid-column: span 3;">=</button>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ==================== 3. PERCENTAGE CALCULATOR ==================== -->
+        <section id="view-percentage" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Percentage Calculator</h2>
+            <div class="tool-tabs">
+              <button class="tool-tab active" data-pct-tab="of">% of Number</button>
+              <button class="tool-tab" data-pct-tab="change">% Change</button>
+              <button class="tool-tab" data-pct-tab="diff">% Difference</button>
+            </div>
+            
+            <div id="pct-of" class="pct-panel active">
+              <label class="field-label" for="pct-of-percent">What is</label>
+              <input type="number" id="pct-of-percent" class="field-input" placeholder="e.g. 25">
+              <label class="field-label" for="pct-of-number">% of</label>
+              <input type="number" id="pct-of-number" class="field-input" placeholder="e.g. 200">
+              <button class="tool-btn" id="pct-of-calc">Calculate</button>
+              <div id="pct-of-result" class="tool-result"></div>
+            </div>
+            
+            <div id="pct-change" class="pct-panel">
+              <label class="field-label" for="pct-change-from">From original value</label>
+              <input type="number" id="pct-change-from" class="field-input" placeholder="e.g. 100">
+              <label class="field-label" for="pct-change-to">To new value</label>
+              <input type="number" id="pct-change-to" class="field-input" placeholder="e.g. 150">
+              <button class="tool-btn" id="pct-change-calc">Calculate</button>
+              <div id="pct-change-result" class="tool-result"></div>
+            </div>
+            
+            <div id="pct-diff" class="pct-panel">
+              <label class="field-label" for="pct-diff-v1">First Value</label>
+              <input type="number" id="pct-diff-v1" class="field-input" placeholder="e.g. 40">
+              <label class="field-label" for="pct-diff-v2">Second Value</label>
+              <input type="number" id="pct-diff-v2" class="field-input" placeholder="e.g. 60">
+              <button class="tool-btn" id="pct-diff-calc">Calculate</button>
+              <div id="pct-diff-result" class="tool-result"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== 4. MULTI-UNIT CONVERTER WORKSTATION (Max 4 at once) ==================== -->
+        <section id="view-unit-grid" class="calc-view multi-grid-view">
+          <div class="multi-grid-header">
+            <div class="multi-grid-meta">
+              <h2 class="tool-title">Unit Converters Grid</h2>
+              <p class="tool-note">Add up to 4 simultaneous unit converters side-by-side.</p>
+            </div>
+            <div class="multi-grid-actions">
+              <button id="add-unit-grid-card" class="action-pill-btn">+ Add Converter</button>
+              <button id="reset-unit-grid" class="action-pill-btn btn-secondary">Reset</button>
+            </div>
+          </div>
+          <div id="unit-grid-container" class="multi-grid-cards">
+            <!-- Dynamically populated or defaults up to 4 cards -->
+          </div>
+        </section>
+        
+        <!-- ==================== SINGLE CONVERTER VIEWS ==================== -->
+        <!-- 4.1 WEIGHT -->
+        <section id="view-weight" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Weight Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="weight-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="weight-from" class="field-select">
+                  <option value="kg">Kilogram (kg)</option>
+                  <option value="g">Gram (g)</option>
+                  <option value="mg">Milligram (mg)</option>
+                  <option value="lb">Pound (lb)</option>
+                  <option value="oz">Ounce (oz)</option>
+                  <option value="stone">Stone</option>
+                  <option value="ton">Metric Ton</option>
+                  <option value="ust">US Ton</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="weight-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="weight-output" class="field-output">0</div>
+                <select id="weight-to" class="field-select">
+                  <option value="lb" selected>Pound (lb)</option>
+                  <option value="kg">Kilogram (kg)</option>
+                  <option value="g">Gram (g)</option>
+                  <option value="mg">Milligram (mg)</option>
+                  <option value="oz">Ounce (oz)</option>
+                  <option value="stone">Stone</option>
+                  <option value="ton">Metric Ton</option>
+                  <option value="ust">US Ton</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- 4.2 LENGTH -->
+        <section id="view-length" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Length Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="length-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="length-from" class="field-select">
+                  <option value="m">Meter (m)</option>
+                  <option value="km">Kilometer (km)</option>
+                  <option value="cm">Centimeter (cm)</option>
+                  <option value="mm">Millimeter (mm)</option>
+                  <option value="mi">Mile (mi)</option>
+                  <option value="yd">Yard (yd)</option>
+                  <option value="ft">Foot (ft)</option>
+                  <option value="in">Inch (in)</option>
+                  <option value="nm">Nautical Mile</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="length-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="length-output" class="field-output">0</div>
+                <select id="length-to" class="field-select">
+                  <option value="ft" selected>Foot (ft)</option>
+                  <option value="m">Meter (m)</option>
+                  <option value="km">Kilometer (km)</option>
+                  <option value="cm">Centimeter (cm)</option>
+                  <option value="mm">Millimeter (mm)</option>
+                  <option value="mi">Mile (mi)</option>
+                  <option value="yd">Yard (yd)</option>
+                  <option value="in">Inch (in)</option>
+                  <option value="nm">Nautical Mile</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- 4.3 VOLUME -->
+        <section id="view-volume" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Volume Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="volume-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="volume-from" class="field-select">
+                  <option value="l">Liter (L)</option>
+                  <option value="ml">Milliliter (mL)</option>
+                  <option value="gal">US Gallon</option>
+                  <option value="qt">US Quart</option>
+                  <option value="pt">US Pint</option>
+                  <option value="cup">US Cup</option>
+                  <option value="floz">US Fl Oz</option>
+                  <option value="m3">Cubic Meter (m&sup3;)</option>
+                  <option value="cm3">Cubic cm (cm&sup3;)</option>
+                  <option value="igal">Imperial Gallon</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="volume-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="volume-output" class="field-output">0</div>
+                <select id="volume-to" class="field-select">
+                  <option value="gal" selected>US Gallon</option>
+                  <option value="l">Liter (L)</option>
+                  <option value="ml">Milliliter (mL)</option>
+                  <option value="qt">US Quart</option>
+                  <option value="pt">US Pint</option>
+                  <option value="cup">US Cup</option>
+                  <option value="floz">US Fl Oz</option>
+                  <option value="m3">Cubic Meter (m&sup3;)</option>
+                  <option value="cm3">Cubic cm (cm&sup3;)</option>
+                  <option value="igal">Imperial Gallon</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- 4.4 TEMPERATURE -->
+        <section id="view-temperature" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Temperature Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="temp-input" class="field-input" placeholder="Enter value">
+                <select id="temp-from" class="field-select">
+                  <option value="c">Celsius (&deg;C)</option>
+                  <option value="f">Fahrenheit (&deg;F)</option>
+                  <option value="k">Kelvin (K)</option>
+                  <option value="r">Rankine (&deg;R)</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="temp-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="temp-output" class="field-output">0</div>
+                <select id="temp-to" class="field-select">
+                  <option value="f" selected>Fahrenheit (&deg;F)</option>
+                  <option value="c">Celsius (&deg;C)</option>
+                  <option value="k">Kelvin (K)</option>
+                  <option value="r">Rankine (&deg;R)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- 4.5 SPEED -->
+        <section id="view-speed" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Speed Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="speed-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="speed-from" class="field-select">
+                  <option value="ms">m/s</option>
+                  <option value="kmh">km/h</option>
+                  <option value="mph">mph</option>
+                  <option value="kn">Knots</option>
+                  <option value="mach">Mach</option>
+                  <option value="fts">ft/s</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="speed-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="speed-output" class="field-output">0</div>
+                <select id="speed-to" class="field-select">
+                  <option value="kmh" selected>km/h</option>
+                  <option value="ms">m/s</option>
+                  <option value="mph">mph</option>
+                  <option value="kn">Knots</option>
+                  <option value="mach">Mach</option>
+                  <option value="fts">ft/s</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- 4.6 ANGLE -->
+        <section id="view-angle" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Angle Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="angle-input" class="field-input" placeholder="Enter value">
+                <select id="angle-from" class="field-select">
+                  <option value="deg">Degrees (&deg;)</option>
+                  <option value="rad">Radians (rad)</option>
+                  <option value="grad">Gradians (gon)</option>
+                  <option value="turn">Turns</option>
+                  <option value="arcmin">Arc Minutes (')</option>
+                  <option value="arcsec">Arc Seconds (")</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="angle-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="angle-output" class="field-output">0</div>
+                <select id="angle-to" class="field-select">
+                  <option value="rad" selected>Radians (rad)</option>
+                  <option value="deg">Degrees (&deg;)</option>
+                  <option value="grad">Gradians (gon)</option>
+                  <option value="turn">Turns</option>
+                  <option value="arcmin">Arc Minutes (')</option>
+                  <option value="arcsec">Arc Seconds (")</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.7 AREA -->
+        <section id="view-area" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Area Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="area-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="area-from" class="field-select area-select">
+                  <option value="sqm">Square Meter (m&sup2;)</option>
+                  <option value="sqkm">Square Km (km&sup2;)</option>
+                  <option value="sqft">Square Foot (ft&sup2;)</option>
+                  <option value="sqyd">Square Yard (yd&sup2;)</option>
+                  <option value="sqmi">Square Mile (mi&sup2;)</option>
+                  <option value="acre">Acre</option>
+                  <option value="hectare">Hectare (ha)</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="area-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="area-output" class="field-output">0</div>
+                <select id="area-to" class="field-select area-select">
+                  <option value="sqft" selected>Square Foot (ft&sup2;)</option>
+                  <option value="sqm">Square Meter (m&sup2;)</option>
+                  <option value="sqkm">Square Km (km&sup2;)</option>
+                  <option value="sqyd">Square Yard (yd&sup2;)</option>
+                  <option value="sqmi">Square Mile (mi&sup2;)</option>
+                  <option value="acre">Acre</option>
+                  <option value="hectare">Hectare (ha)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.8 DATA STORAGE -->
+        <section id="view-datastorage" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Data Storage Converter</h2>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="datastorage-input" class="field-input" placeholder="Enter value" min="0">
+                <select id="datastorage-from" class="field-select">
+                  <option value="b">Bytes (B)</option>
+                  <option value="kb">Kilobytes (KB)</option>
+                  <option value="mb">Megabytes (MB)</option>
+                  <option value="gb" selected>Gigabytes (GB)</option>
+                  <option value="tb">Terabytes (TB)</option>
+                  <option value="pb">Petabytes (PB)</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="datastorage-swap" aria-label="Swap units">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="datastorage-output" class="field-output">0</div>
+                <select id="datastorage-to" class="field-select">
+                  <option value="mb" selected>Megabytes (MB)</option>
+                  <option value="b">Bytes (B)</option>
+                  <option value="kb">Kilobytes (KB)</option>
+                  <option value="gb">Gigabytes (GB)</option>
+                  <option value="tb">Terabytes (TB)</option>
+                  <option value="pb">Petabytes (PB)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== 5. MULTI-FINANCE WORKSTATION (Max 4 at once) ==================== -->
+        <section id="view-finance-grid" class="calc-view multi-grid-view">
+          <div class="multi-grid-header">
+            <div class="multi-grid-meta">
+              <h2 class="tool-title">Finance Multi-Grid</h2>
+              <p class="tool-note">Run Currency, Tip, and Discount calculations simultaneously.</p>
+            </div>
+            <div class="multi-grid-actions">
+              <button id="add-finance-grid-card" class="action-pill-btn">+ Add Finance Card</button>
+              <button id="reset-finance-grid" class="action-pill-btn btn-secondary">Reset</button>
+            </div>
+          </div>
+          <div id="finance-grid-container" class="multi-grid-cards">
+            <!-- Dynamically populated up to 4 financial widgets -->
+          </div>
+        </section>
+        
+        <!-- 5.1 CURRENCY CONVERTER -->
+        <section id="view-currency" class="calc-view">
+          <div class="converter-panel">
+            <h2 class="tool-title">Currency Converter</h2>
+            <p class="tool-note">Accurate multi-currency reference with clean 2-decimal financial formatting.</p>
+            <div class="converter-form">
+              <div class="converter-row">
+                <input type="number" id="currency-input" class="field-input" placeholder="Enter amount" min="0">
+                <select id="currency-from" class="field-select">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (&euro;)</option>
+                  <option value="GBP">GBP (&pound;)</option>
+                  <option value="JPY">JPY (&yen;)</option>
+                  <option value="INR">INR (&#8377;)</option>
+                  <option value="CNY">CNY (&yen;)</option>
+                  <option value="AUD">AUD (A$)</option>
+                  <option value="CAD">CAD (C$)</option>
+                  <option value="CHF">CHF (Fr)</option>
+                  <option value="PKR">PKR (Rs)</option>
+                  <option value="BRL">BRL (R$)</option>
+                  <option value="KRW">KRW (&#8361;)</option>
+                </select>
+              </div>
+              <button class="swap-btn" id="currency-swap" aria-label="Swap currencies">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 12l-3-3m3 3l3-3"/><path d="M17 8v12m0-12l3 3m-3-3l-3 3"/></svg>
+              </button>
+              <div class="converter-row">
+                <div id="currency-output" class="field-output">0.00</div>
+                <select id="currency-to" class="field-select">
+                  <option value="EUR" selected>EUR (&euro;)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="GBP">GBP (&pound;)</option>
+                  <option value="JPY">JPY (&yen;)</option>
+                  <option value="INR">INR (&#8377;)</option>
+                  <option value="CNY">CNY (&yen;)</option>
+                  <option value="AUD">AUD (A$)</option>
+                  <option value="CAD">CAD (C$)</option>
+                  <option value="CHF">CHF (Fr)</option>
+                  <option value="PKR">PKR (Rs)</option>
+                  <option value="BRL">BRL (R$)</option>
+                  <option value="KRW">KRW (&#8361;)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.2 TIP & SPLIT BILL -->
+        <section id="view-tip" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Tip &amp; Split Bill</h2>
+            <label class="field-label" for="tip-bill">Bill Amount ($)</label>
+            <input type="number" id="tip-bill" class="field-input" placeholder="e.g. 85.00" min="0">
+            
+            <label class="field-label">Tip Percentage</label>
+            <div class="quick-preset-row">
+              <button class="preset-btn" data-tip-val="10">10%</button>
+              <button class="preset-btn active" data-tip-val="15">15%</button>
+              <button class="preset-btn" data-tip-val="18">18%</button>
+              <button class="preset-btn" data-tip-val="20">20%</button>
+            </div>
+            <input type="number" id="tip-custom-pct" class="field-input" placeholder="Custom Tip %" value="15" min="0">
+
+            <label class="field-label" for="tip-people">Number of People</label>
+            <input type="number" id="tip-people" class="field-input" placeholder="1" value="1" min="1">
+
+            <button class="tool-btn" id="tip-calc">Calculate Split</button>
+            <div id="tip-result" class="tool-result"></div>
+          </div>
+        </section>
+
+        <!-- 5.3 UNIT PRICE & DISCOUNT -->
+        <section id="view-unitprice" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Unit Price &amp; Discount</h2>
+            <label class="field-label" for="up-price">Original Price ($)</label>
+            <input type="number" id="up-price" class="field-input" placeholder="e.g. 49.99" min="0">
+            
+            <label class="field-label" for="up-discount">Discount (%)</label>
+            <input type="number" id="up-discount" class="field-input" placeholder="e.g. 20" value="0" min="0" max="100">
+
+            <label class="field-label" for="up-qty">Quantity / Pack Count</label>
+            <input type="number" id="up-qty" class="field-input" placeholder="e.g. 1" value="1" min="1">
+
+            <button class="tool-btn" id="up-calc">Calculate Savings &amp; Unit Price</button>
+            <div id="up-result" class="tool-result"></div>
+          </div>
+        </section>
+
+        <!-- ==================== 6. BODY MASS INDEX (BMI) ==================== -->
+        <section id="view-bmi" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Body Mass Index (BMI)</h2>
+            <p class="tool-note">Calculate your BMI with age and gender-adjusted health standards.</p>
+            
+            <!-- Gender Selector -->
+            <label class="field-label">Gender</label>
+            <div class="bmi-gender-toggle">
+              <button type="button" class="gender-btn active" data-gender="male">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><line x1="19" y1="5" x2="13.6" y2="10.4"/><polyline points="15 5 19 5 19 9"/></svg>
+                Male
+              </button>
+              <button type="button" class="gender-btn" data-gender="female">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><line x1="12" y1="14" x2="12" y2="21"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
+                Female
+              </button>
+            </div>
+
+            <!-- Age Input -->
+            <label class="field-label" for="bmi-age">Age (years)</label>
+            <input type="number" id="bmi-age" class="field-input" placeholder="e.g. 25" value="25" min="2" max="120">
+
+            <!-- Independent Weight Unit Section -->
+            <div class="bmi-unit-row">
+              <label class="field-label">Weight</label>
+              <div class="unit-pill-toggle" id="bmi-w-unit-toggle">
+                <button type="button" class="unit-pill-btn active" data-w-unit="kg">KG</button>
+                <button type="button" class="unit-pill-btn" data-w-unit="lb">POUNDS (LB)</button>
+              </div>
+            </div>
+            <div id="bmi-weight-kg-panel" class="labeled-input-wrap">
+              <input type="number" id="bmi-weight-kg" class="field-input" placeholder="e.g. 70" min="1">
+              <span class="input-suffix">kg</span>
+            </div>
+            <div id="bmi-weight-lb-panel" class="labeled-input-wrap" style="display:none;">
+              <input type="number" id="bmi-weight-lb" class="field-input" placeholder="e.g. 154" min="1">
+              <span class="input-suffix">lb</span>
+            </div>
+
+            <!-- Independent Height Unit Section -->
+            <div class="bmi-unit-row">
+              <label class="field-label">Height</label>
+              <div class="unit-pill-toggle" id="bmi-h-unit-toggle">
+                <button type="button" class="unit-pill-btn active" data-h-unit="cm">CM</button>
+                <button type="button" class="unit-pill-btn" data-h-unit="ft">FT / IN</button>
+              </div>
+            </div>
+
+            <div id="bmi-height-cm-panel" class="labeled-input-wrap">
+              <input type="number" id="bmi-height-cm" class="field-input" placeholder="e.g. 175" min="30">
+              <span class="input-suffix">cm</span>
+            </div>
+
+            <div id="bmi-height-ft-panel" class="converter-row" style="display:none;">
+              <div class="labeled-input-wrap">
+                <input type="number" id="bmi-height-ft" class="field-input" placeholder="Feet" min="1" max="8">
+                <span class="input-suffix">ft</span>
+              </div>
+              <div class="labeled-input-wrap">
+                <input type="number" id="bmi-height-in" class="field-input" placeholder="Inches" min="0" max="11">
+                <span class="input-suffix">in</span>
+              </div>
+            </div>
+
+            <!-- Quick Presets for Test Compatibility & Fast Switching -->
+            <div class="tool-tabs" style="margin-top:12px; margin-bottom:10px;">
+              <button type="button" class="tool-tab active" data-bmi-unit="metric">Metric (kg, cm)</button>
+              <button type="button" class="tool-tab" data-bmi-unit="imperial">Imperial (lb, ft / in)</button>
+            </div>
+
+            <button class="tool-btn" id="bmi-calc">Calculate BMI</button>
+            <div id="bmi-result" class="tool-result"></div>
+          </div>
+        </section>
+        
+        <!-- ==================== 7. EQUATIONS SOLVER ==================== -->
+        <section id="view-equations" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Equations Solver</h2>
+            <div class="tool-tabs">
+              <button class="tool-tab active" data-eq-tab="linear">Linear</button>
+              <button class="tool-tab" data-eq-tab="quadratic">Quadratic</button>
+              <button class="tool-tab" data-eq-tab="system">System (2x2)</button>
+            </div>
+            
+            <div id="eq-linear" class="eq-panel active">
+              <p class="eq-formula">ax + b = 0</p>
+              <div class="eq-fields">
+                <div class="eq-field"><label for="eq-a">a</label><input type="number" id="eq-a" class="field-input" placeholder="a"></div>
+                <div class="eq-field"><label for="eq-b">b</label><input type="number" id="eq-b" class="field-input" placeholder="b"></div>
+              </div>
+              <button class="tool-btn" id="eq-linear-solve">Solve</button>
+              <div id="eq-linear-result" class="tool-result"></div>
+            </div>
+            
+            <div id="eq-quadratic" class="eq-panel">
+              <p class="eq-formula">ax&sup2; + bx + c = 0</p>
+              <div class="eq-fields">
+                <div class="eq-field"><label for="eq-qa">a</label><input type="number" id="eq-qa" class="field-input" placeholder="a"></div>
+                <div class="eq-field"><label for="eq-qb">b</label><input type="number" id="eq-qb" class="field-input" placeholder="b"></div>
+                <div class="eq-field"><label for="eq-qc">c</label><input type="number" id="eq-qc" class="field-input" placeholder="c"></div>
+              </div>
+              <button class="tool-btn" id="eq-quad-solve">Solve</button>
+              <div id="eq-quad-result" class="tool-result"></div>
+            </div>
+            
+            <div id="eq-system" class="eq-panel">
+              <p class="eq-formula">a&#8321;x + b&#8321;y = c&#8321;<br>a&#8322;x + b&#8322;y = c&#8322;</p>
+              <div class="eq-fields">
+                <div class="eq-field"><label for="eq-a1">a&#8321;</label><input type="number" id="eq-a1" class="field-input" placeholder="a1"></div>
+                <div class="eq-field"><label for="eq-b1">b&#8321;</label><input type="number" id="eq-b1" class="field-input" placeholder="b1"></div>
+                <div class="eq-field"><label for="eq-c1">c&#8321;</label><input type="number" id="eq-c1" class="field-input" placeholder="c1"></div>
+              </div>
+              <div class="eq-fields">
+                <div class="eq-field"><label for="eq-a2">a&#8322;</label><input type="number" id="eq-a2" class="field-input" placeholder="a2"></div>
+                <div class="eq-field"><label for="eq-b2">b&#8322;</label><input type="number" id="eq-b2" class="field-input" placeholder="b2"></div>
+                <div class="eq-field"><label for="eq-c2">c&#8322;</label><input type="number" id="eq-c2" class="field-input" placeholder="c2"></div>
+              </div>
+              <button class="tool-btn" id="eq-sys-solve">Solve</button>
+              <div id="eq-sys-result" class="tool-result"></div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ==================== 8. AGE CALCULATOR ==================== -->
+        <section id="view-age" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Age Calculator</h2>
+            <label class="field-label" for="age-dob">Date of Birth</label>
+            <input type="date" id="age-dob" class="field-input">
+            <label class="field-label" for="age-asof">Calculate as of</label>
+            <input type="date" id="age-asof" class="field-input">
+            <button class="tool-btn" id="age-calc">Calculate Age</button>
+            <div id="age-result" class="tool-result"></div>
+          </div>
+        </section>
+        
+        <!-- ==================== 9. TIME INTERVAL ==================== -->
+        <section id="view-time-interval" class="calc-view">
+          <div class="tool-panel">
+            <h2 class="tool-title">Time Interval</h2>
+            <p class="tool-note">Calculate the exact duration elapsed between any two calendar dates.</p>
+            <label class="field-label" for="ti-start">Start Date</label>
+            <input type="date" id="ti-start" class="field-input">
+            <label class="field-label" for="ti-end">End Date</label>
+            <input type="date" id="ti-end" class="field-input">
+            <button class="tool-btn" id="ti-calc">Calculate</button>
+            <div id="ti-result" class="tool-result"></div>
+          </div>
+        </section>
+        
+        <!-- ==================== 10. DESMOS GRAPHING WORKSTATION WITH VIRTUAL KEYBOARD ==================== -->
+        <section id="view-graph" class="calc-view">
+          <div class="graph-panel">
+            <!-- Left: Expressions List & Settings -->
+            <div class="graph-sidebar">
+              <div class="graph-sidebar-head">
+                <span class="graph-sidebar-title">Expressions</span>
+                <button id="graph-add" class="graph-add-btn" title="Add Expression">+</button>
+              </div>
+              
+              <div id="graph-expressions" class="graph-expr-list">
+                <div class="graph-expr-row active-focus" data-row="0">
+                  <span class="graph-color" style="background:#00bfa5" title="Click to toggle visibility"></span>
+                  <div class="expr-input-group">
+                    <div class="expr-latex-preview" id="latex-preview-0">y = \sin(x)</div>
+                    <div class="expr-input-row">
+                      <span class="graph-y">y =</span>
+                      <input type="text" class="graph-expr" data-index="0" placeholder="e.g. sin(x)" value="sin(x)">
+                    </div>
+                  </div>
+                  <button class="graph-remove-btn" data-remove="0" title="Remove">&times;</button>
+                </div>
+              </div>
+
+              <!-- Quick Presets -->
+              <div class="graph-presets-wrap">
+                <span class="graph-presets-label">Examples</span>
+                <div class="graph-presets">
+                  <button class="graph-preset-chip" data-expr="sin(x)">sin(x)</button>
+                  <button class="graph-preset-chip" data-expr="cos(x)">cos(x)</button>
+                  <button class="graph-preset-chip" data-expr="x^2 - 4">x&sup2; - 4</button>
+                  <button class="graph-preset-chip" data-expr="1/x">1/x</button>
+                  <button class="graph-preset-chip" data-expr="e^x">e<sup>x</sup></button>
+                  <button class="graph-preset-chip" data-expr="sqrt(x)">&radic;x</button>
+                  <button class="graph-preset-chip" data-expr="abs(x)">|x|</button>
+                  <button class="graph-preset-chip" data-expr="x^3 - 3*x">x&sup3; - 3x</button>
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <div class="graph-controls">
+                <button id="graph-zoom-in" class="graph-ctrl-btn" title="Zoom in">+</button>
+                <button id="graph-zoom-out" class="graph-ctrl-btn" title="Zoom out">&minus;</button>
+                <button id="graph-reset" class="graph-ctrl-btn" title="Reset view">Reset</button>
+                <button id="graph-table-toggle" class="graph-ctrl-btn" title="Show Value Table">Table</button>
+              </div>
+
+              <!-- Value Table panel (toggleable) -->
+              <div id="graph-table-container" class="graph-table-container" style="display:none;">
+                <div class="graph-table-toolbar">
+                  <div class="table-range-inputs">
+                    <span>Range:</span>
+                    <input type="number" id="tbl-start-x" class="table-param-input" value="-5" title="Start X">
+                    <span>to</span>
+                    <input type="number" id="tbl-end-x" class="table-param-input" value="5" title="End X">
+                    <span>step</span>
+                    <input type="number" id="tbl-step-x" class="table-param-input" value="1" min="0.1" step="0.5" title="Step size">
+                  </div>
+                  <div style="display:flex;gap:4px;">
+                    <button id="tbl-gen-btn" class="table-action-btn" title="Set range">Set</button>
+                    <button id="tbl-add-row-btn" class="table-action-btn" title="Add row">+</button>
+                  </div>
+                </div>
+                <table class="graph-table">
+                  <thead>
+                    <tr><th>x</th><th>f(x)</th></tr>
+                  </thead>
+                  <tbody id="graph-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Right: Canvas Coordinate Plane + On-Screen Math Keypad -->
+            <div class="graph-canvas-workspace">
+              <div class="graph-canvas-wrap">
+                <canvas id="graph-canvas"></canvas>
+                <div id="graph-tooltip" class="graph-tooltip" style="display:none;"></div>
+                
+                <!-- On-Screen Keyboard Toggle Pill (like Desmos) -->
+                <button id="desmos-keypad-toggle" class="desmos-keypad-pill" title="Toggle On-Screen Math Keyboard">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <line x1="6" y1="8" x2="6" y2="8.01"/>
+                    <line x1="10" y1="8" x2="10" y2="8.01"/>
+                    <line x1="14" y1="8" x2="14" y2="8.01"/>
+                    <line x1="18" y1="8" x2="18" y2="8.01"/>
+                    <line x1="6" y1="12" x2="6" y2="12.01"/>
+                    <line x1="10" y1="12" x2="10" y2="12.01"/>
+                    <line x1="14" y1="12" x2="14" y2="12.01"/>
+                    <line x1="18" y1="12" x2="18" y2="12.01"/>
+                    <line x1="7" y1="16" x2="17" y2="16"/>
+                  </svg>
+                  <span>Keypad</span>
+                  <svg id="keypad-arrow-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              <!-- DESMOS-STYLE ON-SCREEN MATH KEYBOARD (media_1790135067801.png) -->
+              <div id="desmos-keypad" class="desmos-math-keypad">
+                <div class="keypad-inner">
+                  <!-- Variables & Powers column -->
+                  <div class="keypad-section keypad-vars">
+                    <button class="kbtn" data-k="x">x</button>
+                    <button class="kbtn" data-k="y">y</button>
+                    <button class="kbtn" data-k="^2">a&sup2;</button>
+                    <button class="kbtn" data-k="^">a<sup>b</sup></button>
+
+                    <button class="kbtn" data-k="(">(</button>
+                    <button class="kbtn" data-k=")">)</button>
+                    <button class="kbtn" data-k="<">&lt;</button>
+                    <button class="kbtn" data-k=">">&gt;</button>
+
+                    <button class="kbtn" data-k="abs(">|a|</button>
+                    <button class="kbtn" data-k=",">,</button>
+                    <button class="kbtn" data-k="<=">&le;</button>
+                    <button class="kbtn" data-k=">=">&ge;</button>
+
+                    <button class="kbtn kbtn-func-toggle" id="kbtn-trig-toggle">trig</button>
+                    <button class="kbtn" data-k="sqrt(">&radic;</button>
+                    <button class="kbtn" data-k="pi">&pi;</button>
+                    <button class="kbtn" data-k="e">e</button>
+                  </div>
+
+                  <!-- Numberpad & Basic Ops -->
+                  <div class="keypad-section keypad-numpad">
+                    <button class="kbtn kbtn-num" data-k="7">7</button>
+                    <button class="kbtn kbtn-num" data-k="8">8</button>
+                    <button class="kbtn kbtn-num" data-k="9">9</button>
+                    <button class="kbtn kbtn-op" data-k="/">&divide;</button>
+
+                    <button class="kbtn kbtn-num" data-k="4">4</button>
+                    <button class="kbtn kbtn-num" data-k="5">5</button>
+                    <button class="kbtn kbtn-num" data-k="6">6</button>
+                    <button class="kbtn kbtn-op" data-k="*">&times;</button>
+
+                    <button class="kbtn kbtn-num" data-k="1">1</button>
+                    <button class="kbtn kbtn-num" data-k="2">2</button>
+                    <button class="kbtn kbtn-num" data-k="3">3</button>
+                    <button class="kbtn kbtn-op" data-k="-">&minus;</button>
+
+                    <button class="kbtn kbtn-num" data-k="0">0</button>
+                    <button class="kbtn kbtn-num" data-k=".">.</button>
+                    <button class="kbtn kbtn-equals" data-k="=">=</button>
+                    <button class="kbtn kbtn-op" data-k="+">+</button>
+                  </div>
+
+                  <!-- Functions & Navigation -->
+                  <div class="keypad-section keypad-actions">
+                    <button class="kbtn kbtn-fn-menu" id="kbtn-more-fn">functions</button>
+                    <div class="keypad-nav-row">
+                      <button class="kbtn" id="kbtn-left">&larr;</button>
+                      <button class="kbtn" id="kbtn-right">&rarr;</button>
+                    </div>
+                    <button class="kbtn kbtn-del" id="kbtn-backspace">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+                    </button>
+                    <button class="kbtn kbtn-enter" id="kbtn-enter">
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Extended Functions Drawer (Trig, Hyperbolic, Stats, Logs) -->
+                <div id="keypad-extra-fns" class="keypad-extra-drawer" style="display:none;">
+                  <button class="kbtn kbtn-ext" data-k="sin(">sin</button>
+                  <button class="kbtn kbtn-ext" data-k="cos(">cos</button>
+                  <button class="kbtn kbtn-ext" data-k="tan(">tan</button>
+                  <button class="kbtn kbtn-ext" data-k="cot(">cot</button>
+                  <button class="kbtn kbtn-ext" data-k="sec(">sec</button>
+                  <button class="kbtn kbtn-ext" data-k="csc(">csc</button>
+                  <button class="kbtn kbtn-ext" data-k="asin(">asin</button>
+                  <button class="kbtn kbtn-ext" data-k="acos(">acos</button>
+                  <button class="kbtn kbtn-ext" data-k="atan(">atan</button>
+                  <button class="kbtn kbtn-ext" data-k="sinh(">sinh</button>
+                  <button class="kbtn kbtn-ext" data-k="cosh(">cosh</button>
+                  <button class="kbtn kbtn-ext" data-k="tanh(">tanh</button>
+                  <button class="kbtn kbtn-ext" data-k="ln(">ln</button>
+                  <button class="kbtn kbtn-ext" data-k="log(">log</button>
+                  <button class="kbtn kbtn-ext" data-k="log2(">log2</button>
+                  <button class="kbtn kbtn-ext" data-k="exp(">exp</button>
+                  <button class="kbtn kbtn-ext" data-k="sqrt(">sqrt</button>
+                  <button class="kbtn kbtn-ext" data-k="cbrt(">cbrt</button>
+                  <button class="kbtn kbtn-ext" data-k="abs(">abs</button>
+                  <button class="kbtn kbtn-ext" data-k="floor(">floor</button>
+                  <button class="kbtn kbtn-ext" data-k="ceil(">ceil</button>
+                  <button class="kbtn kbtn-ext" data-k="round(">round</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+      </div><!-- /.calc-container -->
+    </main>
+  </div><!-- /.app -->
+
+  <!-- ==================== CALCULATION HISTORY DRAWER ==================== -->
+  <div id="history-drawer" class="history-drawer" aria-hidden="true">
+    <div class="history-drawer-header">
+      <div class="history-drawer-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><polyline points="12 7 12 12 15 15"/></svg>
+        <h3>Calculation History</h3>
+      </div>
+      <div class="history-actions">
+        <button id="history-clear-btn" class="history-clear-btn">Clear</button>
+        <button id="history-close-btn" class="history-close-btn">&times;</button>
+      </div>
+    </div>
+    <div id="history-list" class="history-items">
+      <div class="history-empty">No calculations recorded yet.</div>
+    </div>
+  </div>
+</body>
+</html>
